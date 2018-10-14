@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.0"> </script>
+  </head>
+
+  <body>
+  </body>
+  <script>
+      // building a model
+      const model = tf.sequential();
+      // adding layers to our model
+      model.add(tf.layers.dense({units:1, inputShape: [1]}));
+      model.add(tf.layers.dense({units:64, inputShape: [1]}));
+      model.add(tf.layers.dense({units:1, inputShape: [64]}));
+      // compiling model
+      model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+      // Input data
+      const xs = [1,2,3,4,5];
+      // Expected output data
+      const ys = [2,4,6,8,10];
+      
+      (async () => {
+      // Training the our Linear Model
+      await model.fit(tf.tensor2d(xs, [5,1]), tf.tensor2d(ys, [5,1]), {epochs: 150, shuffle:true});
+      // predicting output
+      console.log(model.predict(tf.tensor2d([60], [1, 1])).dataSync());
+    })();
+  </script>
+</html>
