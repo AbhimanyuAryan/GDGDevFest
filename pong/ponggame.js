@@ -258,3 +258,10 @@ AI.prototype.new_turn = function(){
     }
 }
 
+// Custom code:
+// empty training data to start clean
+AI.prototype.reset = function(){
+    this.previous_data = null;
+    this.training_data = [[], [], []];
+    this.turn = 0;
+}
