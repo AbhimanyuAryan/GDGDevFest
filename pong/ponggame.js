@@ -114,3 +114,11 @@ Computer.prototype.update = function (ball) {
         this.paddle.x = 400 - this.paddle.width;
     }
 };
+
+
+// Custom code. Depending on what
+// move passed here, we move the computer 4x.
+// Network output is either -1, 0, or 1 (left, stay, right)
+Computer.prototype.ai_update = function (move = 0) {
+    this.paddle.move(4 * move, 0);
+};
