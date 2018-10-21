@@ -298,3 +298,17 @@ AI.prototype.train = function(){
     console.log('trained');
 
 }
+
+
+// Custom code:
+AI.prototype.predict_move = function(){
+    console.log('predicting');
+    if(this.last_data_object != null){
+        //use this.last_data_object for input data
+        //do prediction here
+        //return -1/0/1
+        prediction = model.predict(tf.tensor([this.last_data_object]));
+        return tf.argMax(prediction, 1).dataSync()-1;
+    }
+
+}
