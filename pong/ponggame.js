@@ -1,13 +1,12 @@
 // initial model definition
 const model = tf.sequential();
 model.add(tf.layers.dense({units: 256, inputShape: [8]})); //input is a 1x8
-model.add(tf.layers.dense({units: 512, inputShape: [256]}));
-model.add(tf.layers.dense({units: 256, inputShape: [512]}));
+model.add(tf.layers.dense({units: 512, inputShape: [256], activation:"sigmoid"}));
+model.add(tf.layers.dense({units: 256, inputShape: [512], activation:"sigmoid"}));
 model.add(tf.layers.dense({units: 3, inputShape: [256]})); //returns a 1x3
 const learningRate = 0.001;
 const optimizer = tf.train.adam(learningRate);
 model.compile({loss: 'meanSquaredError', optimizer: optimizer});
-
 
 //animation of the pong game code
 var animate = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
@@ -115,14 +114,12 @@ Computer.prototype.update = function (ball) {
     }
 };
 
-
 // Custom code. Depending on what
 // move passed here, we move the computer 4x.
 // Network output is either -1, 0, or 1 (left, stay, right)
 Computer.prototype.ai_update = function (move = 0) {
     this.paddle.move(4 * move, 0);
 };
-
 
 //from pong code:
 function Player() {
@@ -203,7 +200,6 @@ Ball.prototype.update = function (paddle1, paddle2, new_turn) {
         }
     }
 };
-
 // Custom code:
 // stores data for ai.
 function AI(){
@@ -243,6 +239,7 @@ AI.prototype.save_data = function(player, computer, ball){
     this.previous_data = data_xs;
 }
 
+
 // Custom code:
 // deciding whether to play as ai
 AI.prototype.new_turn = function(){
@@ -257,6 +254,7 @@ AI.prototype.new_turn = function(){
         this.reset();
     }
 }
+
 
 // Custom code:
 // empty training data to start clean
@@ -298,7 +296,6 @@ AI.prototype.train = function(){
     console.log('trained');
 
 }
-
 
 // Custom code:
 AI.prototype.predict_move = function(){
