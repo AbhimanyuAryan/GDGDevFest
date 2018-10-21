@@ -242,3 +242,19 @@ AI.prototype.save_data = function(player, computer, ball){
     this.training_data[index].push(this.last_data_object);
     this.previous_data = data_xs;
 }
+
+// Custom code:
+// deciding whether to play as ai
+AI.prototype.new_turn = function(){
+    this.previous_data = null;
+    this.turn++;
+    console.log('new turn: ' + this.turn);
+
+    //hm games til train?
+    if(this.turn > 1){
+        this.train();
+        computer.ai_plays = true;
+        this.reset();
+    }
+}
+
