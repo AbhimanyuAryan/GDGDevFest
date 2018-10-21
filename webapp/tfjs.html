@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <!-- Loading in TensorFlow.js version 0.11.2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.2"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"> </script>
+  </head>
+  <body>
+    x: <input type="text" id="x" />
+    y: <input type="text" id="y" />
+
+    <input type="button" id="append" value="submit">
+
+    <div style="padding:50px">
+        <canvas id="myChart" width="600" height="300"></canvas>
+    </div>
+
+  	<script>
+        var xs = [] // starts empty, to be populated with .push
+        var ys = [] // starts empty, to be populated with .push
+        document.getElementById('x').value = 1; // create a starting value for our x
+
+        // the append id is given to our submit button, this will be called
+        document.getElementById('append').onclick = function(){
+        	console.log("Hello");
+            var x = document.getElementById('x').value; // grab the current value for x
+            var y = document.getElementById('y').value; // grab the current value for y
+            xs.push(x) // append that value to the xs
+            ys.push(y) // append that value to the ys
+            document.getElementById('x').value = parseInt(x)+1; // add 1 to the x automatically
+
+            var ctx = document.getElementById("myChart").getContext('2d'); // begin chart
+
+             // Chart data and settings:
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                options: {scales:{yAxes: [{ticks: {beginAtZero: true}}]}},
+                data: {
+                    labels: xs,
+                    datasets: [
+                    {
+                        label: 'Original Data',
+                        data: ys,
+                        borderWidth: 1,
+                    }]
+                },
+            });
+  		}
+
+  	</script>
+  </body>
+</html>
