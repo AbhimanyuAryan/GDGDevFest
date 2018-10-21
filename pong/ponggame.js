@@ -203,3 +203,42 @@ Ball.prototype.update = function (paddle1, paddle2, new_turn) {
         }
     }
 };
+
+// Custom code:
+// stores data for ai.
+function AI(){
+    this.previous_data = null;
+    this.training_data = [[], [], []];
+    this.last_data_object = null;
+    this.turn = 0;
+    this.grab_data = true;
+    this.flip_table = true;
+}
+
+
+// Custom code:
+// This code is responsible for saving data per frame
+AI.prototype.save_data = function(player, computer, ball){
+    if(!this.grab_data)
+        return;
+
+    // If this is the very first frame (no prior data):
+    if(this.previous_data == null){
+        data = this.flip_table ? [width - computer.x, width - player.x, width - ball.x, height - ball.y] : [player.x, computer.x, ball.x, ball.y];
+        this.previous_data = data;
+        return;
+    }
+
+    // table is rotated to learn from player, but apply to computer position:
+    if(this.flip_table){
+        data_xs = [width - computer.x, width - player.x, width - ball.x, height - ball.y];
+        index = ((width - player.x) > this.previous_data[1])?0:(((width - player.x) == this.previous_data[1])?1:2);
+    }else{
+        data_xs = [player.x, computer.x, ball.x, ball.y];
+        index = (player.x < this.previous_data[0])?0:((player.x == this.previous_data[0])?1:2);
+    }
+
+    this.last_data_object = [...this.previous_data, ...data_xs];
+    this.training_data[index].push(this.last_data_object);
+    this.previous_data = data_xs;
+}
