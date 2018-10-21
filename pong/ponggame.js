@@ -312,3 +312,15 @@ AI.prototype.predict_move = function(){
     }
 
 }
+
+// Original pong code:
+document.body.appendChild(canvas);
+animate(step);
+
+window.addEventListener("keydown", function (event) {
+    keysDown[event.keyCode] = true;
+});
+
+window.addEventListener("keyup", function (event) {
+    delete keysDown[event.keyCode];
+});
