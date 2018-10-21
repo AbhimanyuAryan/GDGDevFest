@@ -265,3 +265,36 @@ AI.prototype.reset = function(){
     this.training_data = [[], [], []];
     this.turn = 0;
 }
+
+
+// Custom code:
+// trains a model
+AI.prototype.train = function(){
+    console.log('balancing');
+
+    //shuffle attempt
+    len = Math.min(this.training_data[0].length, this.training_data[1].length, this.training_data[2].length);
+    if(!len){
+        console.log('nothing to train');
+        return;
+    }
+    data_xs = [];
+    data_ys = [];
+    for(i = 0; i < 3; i++){
+        data_xs.push(...this.training_data[i].slice(0, len));
+        data_ys.push(...Array(len).fill([i==0?1:0, i==1?1:0, i==2?1:0]));
+    }
+
+
+    console.log('training');
+    const xs = tf.tensor(data_xs);
+    const ys = tf.tensor(data_ys);
+
+    (async function() {
+        console.log('training2');
+        let result = await model.fit(xs, ys);
+        console.log(result);
+    }());
+    console.log('trained');
+
+}
